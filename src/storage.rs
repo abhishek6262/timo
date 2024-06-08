@@ -1,10 +1,10 @@
-use dirs::home_dir;
+use dirs::data_local_dir;
 use std::fs::{self, File};
 use std::io::{BufReader, BufWriter, Write};
 use std::path::PathBuf;
 
 fn get_storage_path() -> PathBuf {
-    let mut storage_path = home_dir().unwrap();
+    let mut storage_path = data_local_dir().unwrap();
 
     storage_path.push("timo");
     storage_path
