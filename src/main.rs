@@ -14,10 +14,15 @@ fn main() {
         .subcommand_required(true)
         .subcommand(
             Command::new("add")
-                .about("Add a new item into the bucket")
+                .about("Add a new item into the list")
                 .arg(arg!(<TEXT>)),
         )
-        .subcommand(Command::new("list").about("List items from the bucket"))
+        .subcommand(
+            Command::new("remove")
+                .about("Deletes an item from the list")
+                .arg(arg!(<INDEX>)),
+        )
+        .subcommand(Command::new("list").about("List items in the bucket"))
         .get_matches();
 
     let storage = Storage::new();
@@ -30,6 +35,10 @@ fn main() {
             }
         }
 
+        Some(("remove", sub_matches)) => {
+            //
+        }
+
         Some(("list", _)) => {
             let mut index = 0;
 
@@ -40,6 +49,7 @@ fn main() {
                 println!("[{index}]: {item}");
             }
         }
+
         _ => {
             //
         }
