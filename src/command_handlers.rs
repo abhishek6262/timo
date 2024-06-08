@@ -10,8 +10,8 @@ pub fn remove_item(app: &App, index: &usize) {
     println!("{:?}", index);
 }
 
-pub fn search_item(app: &App, key: &String) {
-    let key = key.to_lowercase();
+pub fn search_item(app: &App, key: &Vec<String>) {
+    let key = key.join(" ").to_lowercase();
     let mut texts = vec![];
 
     for line in app.storage.read().lines() {

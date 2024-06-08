@@ -17,7 +17,7 @@ pub enum Commands {
     #[command(about = "Search thoughts in the list")]
     Search {
         #[arg()]
-        key: String,
+        key: Vec<String>,
     },
 
     #[command(about = "Print all the thoughts in the list")]
