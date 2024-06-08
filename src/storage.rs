@@ -1,6 +1,6 @@
 use std::{
     fs::{self, File},
-    io::{BufReader, BufWriter, Write},
+    io::{BufReader, BufWriter, Seek, SeekFrom, Write},
     path::PathBuf,
 };
 
@@ -37,6 +37,13 @@ impl Storage {
         let writer = File::options().append(true).open(writer_path).unwrap();
 
         Self { reader, writer }
+    }
+
+    pub fn clear(&self) {
+        let mut writer = BufWriter::new(&self.writer);
+
+        self.writer.set_len(0).unwrap();
+        writer.seek(SeekFrom::Start(0)).unwrap();
     }
 
     pub fn write(&self, text: &str) {

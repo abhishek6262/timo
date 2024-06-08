@@ -6,8 +6,18 @@ pub fn add_item(app: &App, text: &Vec<String>) {
     app.storage.write(&text.join(" "));
 }
 
-pub fn remove_item(app: &App, index: &usize) {
-    println!("{:?}", index);
+pub fn remove_item(app: &App, indexes: &Vec<usize>) {
+    let texts: Vec<String> = app
+        .storage
+        .read()
+        .lines()
+        .enumerate()
+        .filter(|predicate| !indexes.contains(&predicate.0))
+        .map(|predicate| predicate.1.unwrap())
+        .collect();
+
+    app.storage.clear();
+    app.storage.write(&texts.join("\n"));
 }
 
 pub fn search_item(app: &App, key: &Vec<String>) {
