@@ -17,7 +17,10 @@ pub fn remove_item(app: &App, indexes: &Vec<usize>) {
         .collect();
 
     app.storage.clear();
-    app.storage.write(&texts.join("\n"));
+
+    if texts.len() > 0 {
+        app.storage.write(&texts.join("\n"));
+    }
 }
 
 pub fn search_item(app: &App, key: &Vec<String>) {
