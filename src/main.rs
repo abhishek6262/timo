@@ -22,6 +22,11 @@ fn main() {
                 .about("Deletes an item from the list")
                 .arg(arg!(<INDEX>)),
         )
+        .subcommand(
+            Command::new("search")
+                .about("Search a keyword in the list")
+                .arg(arg!(<TEXT>)),
+        )
         .subcommand(Command::new("list").about("List items in the bucket"))
         .get_matches();
 
@@ -56,6 +61,10 @@ fn main() {
                 storage.clear();
                 storage.write(&items);
             }
+        }
+
+        Some(("search", sub_matches)) => {
+            //
         }
 
         Some(("list", _)) => {
