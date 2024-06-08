@@ -25,7 +25,7 @@ fn main() {
         .subcommand(
             Command::new("search")
                 .about("Search a keyword in the list")
-                .arg(arg!(<TEXT>)),
+                .arg(arg!(<KEY>)),
         )
         .subcommand(Command::new("list").about("List items in the bucket"))
         .get_matches();
@@ -64,7 +64,24 @@ fn main() {
         }
 
         Some(("search", sub_matches)) => {
-            //
+            if let Some(key) = sub_matches.get_one::<String>("KEY") {
+                let mut items = vec![];
+
+                for item in storage.read().lines() {
+                    let item = item.unwrap();
+
+                    if item.contains(key) {
+                        items.push(item);
+                    }
+                }
+
+                let mut index = 1;
+
+                for item in items {
+                    println!("[{index}]: {item}");
+                    index += 1;
+                }
+            }
         }
 
         Some(("list", _)) => {
