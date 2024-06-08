@@ -36,7 +36,26 @@ fn main() {
         }
 
         Some(("remove", sub_matches)) => {
-            //
+            if let Some(index) = sub_matches.get_one::<String>("INDEX") {
+                let index: usize = index.parse().unwrap();
+                let mut items = String::new();
+
+                let mut i = 0;
+
+                for item in storage.read().lines() {
+                    i += 1;
+
+                    if index == i {
+                        continue;
+                    }
+
+                    let item = format!("{}\n", item.unwrap());
+                    items.push_str(&item);
+                }
+
+                storage.clear();
+                storage.write(&items);
+            }
         }
 
         Some(("list", _)) => {
