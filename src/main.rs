@@ -6,11 +6,7 @@ use std::io::BufRead;
 
 fn main() {
     let matches = Command::new("Timo")
-        .about(
-            "Capture thoughts, ideas & experiences. \
-            Fuzzy search lets you find entries instantly as you type. \
-            Add, search & delete entries - all in your terminal.",
-        )
+        .about("Capture and search thoughts in your terminal.")
         .subcommand_required(true)
         .subcommand(
             Command::new("add")
