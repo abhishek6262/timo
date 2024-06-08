@@ -28,9 +28,10 @@ pub fn search_item(app: &App, key: &Vec<String>) {
     let mut texts = vec![];
 
     for line in app.storage.read().lines() {
-        let text = line.unwrap().to_lowercase();
+        let text = line.unwrap();
+        let search_text = text.to_lowercase();
 
-        if text.contains(&key) {
+        if search_text.contains(&key) {
             texts.push(text);
         }
     }
