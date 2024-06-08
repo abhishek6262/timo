@@ -6,6 +6,10 @@ pub fn add_item(app: &App, text: &Vec<String>) {
     app.storage.write(&text.join(" "));
 }
 
+pub fn clear_items(app: &App) {
+    app.storage.clear();
+}
+
 pub fn remove_item(app: &App, indexes: &Vec<usize>) {
     let texts: Vec<String> = app
         .storage
