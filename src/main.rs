@@ -1,8 +1,8 @@
 mod storage;
 
-use std::io::BufRead;
-use clap::{arg, Command};
 use crate::storage::Storage;
+use clap::{arg, Command};
+use std::io::BufRead;
 
 fn main() {
     let matches = Command::new("Timo")
@@ -12,7 +12,11 @@ fn main() {
             Add, search & delete entries - all in your terminal.",
         )
         .subcommand_required(true)
-        .subcommand(Command::new("add").about("Add a new item into the bucket").arg(arg!(<TEXT>)))
+        .subcommand(
+            Command::new("add")
+                .about("Add a new item into the bucket")
+                .arg(arg!(<TEXT>)),
+        )
         .subcommand(Command::new("list").about("List items from the bucket"))
         .get_matches();
 
@@ -22,9 +26,9 @@ fn main() {
         Some(("add", sub_matches)) => {
             if let Some(text) = sub_matches.get_one::<String>("TEXT") {
                 let text = text.to_owned() + "\n";
-                storage.wriite(&text);
+                storage.write(&text);
             }
-        },
+        }
 
         Some(("list", _)) => {
             let mut index = 0;
@@ -35,7 +39,7 @@ fn main() {
 
                 println!("[{index}]: {item}");
             }
-        },
+        }
         _ => {
             //
         }
