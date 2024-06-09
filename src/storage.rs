@@ -1,5 +1,5 @@
 use std::{
-    fs::File,
+    fs::{self, File},
     io::{BufReader, BufWriter, Write},
     path::PathBuf,
 };
@@ -16,17 +16,25 @@ fn get_storage_path() -> PathBuf {
     storage_path
 }
 
+fn ensure_path_exists(path: &PathBuf) {
+    if !path.exists() {
+        fs::write(path, "").unwrap();
+    }
+}
+
 impl Storage {
     pub fn new() -> Self {
-        Self {
-            storage_path: get_storage_path(),
-        }
+        let storage_path = get_storage_path();
+
+        ensure_path_exists(&storage_path);
+
+        Self { storage_path }
     }
 
     pub fn clear(&self) {
         let file = File::options()
-            .create(true)
             .write(true)
+            .truncate(true)
             .open(&self.storage_path)
             .unwrap();
 
@@ -36,7 +44,6 @@ impl Storage {
     pub fn write(&self, text: &str) {
         let text = text.to_owned() + "\n";
         let file = File::options()
-            .create(true)
             .append(true)
             .open(&self.storage_path)
             .unwrap();
@@ -46,11 +53,7 @@ impl Storage {
     }
 
     pub fn read(&self) -> BufReader<File> {
-        let file = File::options()
-            .create(true)
-            .read(true)
-            .open(&self.storage_path)
-            .unwrap();
+        let file = File::options().read(true).open(&self.storage_path).unwrap();
 
         BufReader::new(file)
     }
