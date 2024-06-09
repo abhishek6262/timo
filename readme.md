@@ -10,20 +10,28 @@ Timo is a command-line application that allows you to capture and manage your th
 - **Persistent Storage**: Thoughts are stored in a local file for future reference.
 
 ## Installation
-To use Timo, you can clone the repository locally and build it using Rust and Cargo. Here are the steps:
+To use Timo, you can install it using Homebrew or build it from source using Rust and Cargo.
 
+### Install using Homebrew (Recommended)
+
+```bash
+brew tap abhishek6262/timo
+brew install timo
+```
+
+### Build from Source
 1. Clone the Timo repository:
    ```bash
    git clone https://github.com/abhishek6262/timo
    ```
 
 2. Navigate to the project directory:
-   
    ```bash
    cd timo
    ```
 
-3. You can then install Timo globally using `cargo install --path .` command.
+3. Install Timo globally using `cargo install --path .` command.
+
 
 
 ## Usage
