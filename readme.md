@@ -37,7 +37,7 @@ timo add <thought>
 Replace `<thought>` with your thought. Multiple words will be combined into a single thought. For example:
 
 ```bash
-timo add Hack a new idea!
+timo add Hack that new idea!
 ```
 
 ### Clear All Thoughts
