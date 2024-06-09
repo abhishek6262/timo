@@ -23,7 +23,7 @@ To use Timo, you can clone the repository locally and build it using Rust and Ca
    cd timo
    ```
 
-3. You can also install Timo globally using `cargo install --path .`.
+3. You can then install Timo globally using `cargo install --path .` command.
 
 
 ## Usage
