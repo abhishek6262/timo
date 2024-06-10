@@ -76,6 +76,11 @@ timo list
 
 This command will print all thoughts in the list, along with their indexes.
 
+### Show Help
+```bash
+timo help
+```
+
 ## Contributing
 Contributions to Timo are welcome! If you find any issues or have suggestions for improvements, please open an issue or submit a pull request on the GitHub repository.
 
