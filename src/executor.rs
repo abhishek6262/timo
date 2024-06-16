@@ -1,20 +1,22 @@
 use crate::{
     app::App,
     cli::Cli,
-    command_handlers::{add_item, clear_items, list_items, remove_item, search_item},
     commands::Commands,
 };
+use crate::task_service::TaskService;
 
 pub struct Executor;
 
 impl Executor {
     pub fn run(app: &App, cli: &Cli) {
+        let task_service = TaskService::new(app);
+
         match &cli.command {
-            Commands::Add { text } => add_item(&app, text),
-            Commands::Clear => clear_items(&app),
-            Commands::Remove { indexes } => remove_item(&app, indexes),
-            Commands::Search { key } => search_item(&app, key),
-            Commands::List => list_items(&app),
+            Commands::Add { text } => task_service.add_task(text),
+            Commands::Clear => task_service.clear_tasks(),
+            Commands::Remove { indexes } => task_service.remove_task(indexes),
+            Commands::Search { key } => task_service.search_task(key),
+            Commands::List => task_service.list_tasks(),
         }
     }
 }

@@ -5,10 +5,12 @@ use executor::Executor;
 
 mod app;
 mod cli;
-mod command_handlers;
 mod commands;
 mod executor;
 mod storage;
+mod task;
+mod task_repository;
+mod task_service;
 
 fn main() {
     let cli = Cli::parse();
