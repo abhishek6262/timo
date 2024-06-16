@@ -8,6 +8,8 @@ mod cli;
 mod commands;
 mod executor;
 mod storage;
+mod task;
+mod task_repository;
 mod task_service;
 
 fn main() {

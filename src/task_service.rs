@@ -1,64 +1,43 @@
-use std::io::BufRead;
-
 use crate::app::App;
+use crate::task_repository::TaskRepository;
 
 pub struct TaskService<'a> {
-    app: &'a App,
+    task_repository: TaskRepository<'a>,
 }
 
 impl<'a> TaskService<'a> {
     pub fn new(app: &'a App) -> Self {
-        Self {
-            app,
-        }
+        let task_repository = TaskRepository::new(&app.storage);
+
+        Self { task_repository }
     }
 
     pub fn add_task(&self, text: &Vec<String>) {
-        self.app.storage.write(&text.join(" "));
+        let content = text.join(" ");
+        self.task_repository.add(&content);
     }
 
     pub fn clear_tasks(&self) {
-        self.app.storage.clear();
+        self.task_repository.delete_all();
     }
 
     pub fn remove_task(&self, indexes: &Vec<usize>) {
-        let texts: Vec<String> = self.app
-            .storage
-            .read()
-            .lines()
-            .enumerate()
-            .filter(|predicate| !indexes.contains(&predicate.0))
-            .map(|predicate| predicate.1.unwrap())
-            .collect();
-
-        self.app.storage.clear();
-
-        if texts.len() > 0 {
-            self.app.storage.write(&texts.join("\n"));
+        for index in indexes {
+            self.task_repository.delete(index);
         }
     }
 
     pub fn search_task(&self, key: &Vec<String>) {
-        let key = key.join(" ").to_lowercase();
-        let mut texts = vec![];
+        let key = key.join(" ");
 
-        for line in self.app.storage.read().lines() {
-            let text = line.unwrap();
-            let search_text = text.to_lowercase();
-
-            if search_text.contains(&key) {
-                texts.push(text);
-            }
-        }
-
-        for (index, line) in texts.iter().enumerate() {
-            println!("[{index}]: {line}");
+        for task in self.task_repository.search(&key) {
+            println!("[{}]: {}", task.id, task.content);
         }
     }
 
     pub fn list_tasks(&self) {
-        for (index, line) in self.app.storage.read().lines().enumerate() {
-            println!("[{index}]: {}", line.unwrap());
+        for task in self.task_repository.get_all() {
+            println!("[{}]: {}", task.id, task.content);
         }
     }
 }
