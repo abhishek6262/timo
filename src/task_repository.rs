@@ -15,8 +15,8 @@ impl<'a> TaskRepository<'a> {
         self.storage.write(content);
     }
 
-    pub fn delete(&self, index: &usize) {
-        let id = index.to_owned();
+    pub fn delete(&self, id: &usize) {
+        let id = id.to_owned();
         let tasks = self.get_all().into_iter().filter(|task| task.id != id);
 
         self.storage.clear();
@@ -34,7 +34,7 @@ impl<'a> TaskRepository<'a> {
             .lines()
             .enumerate()
             .map(|task| {
-                let id = task.0;
+                let id = task.0 + 1;
                 let content = task.1.unwrap();
 
                 Task::from(id, content)
