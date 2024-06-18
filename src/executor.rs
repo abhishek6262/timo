@@ -14,7 +14,7 @@ impl Executor {
         match &cli.command {
             Commands::Add { text } => task_service.add_task(text),
             Commands::Clear => task_service.clear_tasks(),
-            Commands::Remove { indexes } => task_service.remove_task(indexes),
+            Commands::Remove { ids } => task_service.remove_task(ids),
             Commands::Search { key } => task_service.search_task(key),
             Commands::List => task_service.list_tasks(),
         }
