@@ -1,13 +1,14 @@
+use crate::sqlite_storage::SqliteStorage;
 use crate::storage::Storage;
 
 pub struct App {
-    pub storage: Storage,
+    pub storage: Box<dyn Storage>,
 }
 
 impl App {
     pub fn new() -> Self {
         Self {
-            storage: Storage::new(),
+            storage: Box::new(SqliteStorage::new()),
         }
     }
 }

@@ -1,60 +1,17 @@
-use std::{
-    fs::{self, File},
-    io::{BufReader, BufWriter, Write},
-    path::PathBuf,
-};
+use crate::task::Task;
 
-use dirs::data_local_dir;
+pub trait Storage {
+    fn new() -> impl Storage
+    where
+        Self: Sized;
 
-pub struct Storage {
-    storage_path: PathBuf,
-}
+    fn add(&self, text: &str);
 
-fn get_storage_path() -> PathBuf {
-    let mut storage_path = data_local_dir().unwrap();
-    storage_path.push("timodata.log");
-    storage_path
-}
+    fn search(&self, text: &str) -> Vec<Task>;
 
-fn ensure_path_exists(path: &PathBuf) {
-    if !path.exists() {
-        fs::write(path, "").unwrap();
-    }
-}
+    fn delete(&self, id: usize);
 
-impl Storage {
-    pub fn new() -> Self {
-        let storage_path = get_storage_path();
+    fn clear(&self);
 
-        ensure_path_exists(&storage_path);
-
-        Self { storage_path }
-    }
-
-    pub fn clear(&self) {
-        let file = File::options()
-            .write(true)
-            .truncate(true)
-            .open(&self.storage_path)
-            .unwrap();
-
-        file.set_len(0).unwrap();
-    }
-
-    pub fn write(&self, text: &str) {
-        let text = text.to_owned() + "\n";
-        let file = File::options()
-            .append(true)
-            .open(&self.storage_path)
-            .unwrap();
-        let mut writer = BufWriter::new(file);
-
-        writer.write_all(text.as_bytes()).unwrap();
-    }
-
-    pub fn read(&self) -> BufReader<File> {
-        let file = File::options().read(true).open(&self.storage_path).unwrap();
-
-        BufReader::new(file)
-    }
+    fn list(&self) -> Vec<Task>;
 }
