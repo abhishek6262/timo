@@ -7,7 +7,7 @@ pub enum Commands {
         #[arg()]
         text: Vec<String>,
 
-        #[arg(short = 'l', long = "label")]
+        #[arg(short, long)]
         label: Option<String>,
     },
 
@@ -25,13 +25,13 @@ pub enum Commands {
         #[arg()]
         key: Vec<String>,
 
-        #[arg(short = 'l', long = "label")]
+        #[arg(short, long)]
         label: Option<String>,
     },
 
     #[command(about = "Print all thoughts in the list")]
     List {
-        #[arg(short = 'l', long = "label")]
+        #[arg(short, long)]
         label: Option<String>,
     },
 }
