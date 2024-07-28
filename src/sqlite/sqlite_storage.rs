@@ -2,7 +2,7 @@ use super::migration::run_migrations;
 use crate::storage::Storage;
 use crate::task::Task;
 use dirs::data_local_dir;
-use rusqlite::Connection;
+use rusqlite::{params, Connection};
 use std::path::PathBuf;
 
 fn get_db_path() -> PathBuf {
@@ -26,60 +26,40 @@ impl Storage for SqliteStorage {
     }
 
     fn add(&self, text: &str, label: &Option<String>) {
-        match label {
-            Some(l) => self
-                .connection
-                .execute(
-                    "INSERT INTO tasks (content, label) VALUES (?, ?)",
-                    [text, l],
-                )
-                .unwrap(),
-
-            None => self
-                .connection
-                .execute("INSERT INTO tasks (content) VALUES (?)", [text])
-                .unwrap(),
+        let (sql, params) = match label {
+            Some(l) => (
+                "INSERT INTO tasks (content, label) VALUES (?, ?)",
+                params![text, Box::new(l)],
+            ),
+            None => ("INSERT INTO tasks (content) VALUES (?)", params![text]),
         };
+
+        self.connection.execute(sql, params).unwrap();
     }
 
     fn search(&self, text: &str, label: &Option<String>) -> Vec<Task> {
-        let tasks = match label {
-            Some(l) => {
-                let mut stmt = self
-                    .connection
-                    .prepare(
-                        "SELECT id, content, label FROM tasks WHERE content LIKE ? AND label = ?",
-                    )
-                    .unwrap();
-
-                stmt.query_map([format!("%{}%", text), l.to_owned()], |row| {
-                    Ok(Task {
-                        id: row.get(0)?,
-                        content: row.get(1)?,
-                    })
-                })
-                .unwrap()
-                .map(|task| task.unwrap())
-                .collect()
-            }
-
-            None => {
-                let mut stmt = self
-                    .connection
-                    .prepare("SELECT id, content, label FROM tasks WHERE content LIKE ?")
-                    .unwrap();
-
-                stmt.query_map([format!("%{}%", text)], |row| {
-                    Ok(Task {
-                        id: row.get(0)?,
-                        content: row.get(1)?,
-                    })
-                })
-                .unwrap()
-                .map(|task| task.unwrap())
-                .collect()
-            }
+        let (sql, params) = match label {
+            Some(l) => (
+                "SELECT id, content FROM tasks WHERE content LIKE ? AND label = ?",
+                params![format!("%{}%", text), Box::new(l)],
+            ),
+            None => (
+                "SELECT id, content FROM tasks WHERE content LIKE ?",
+                params![format!("%{}%", text)],
+            ),
         };
+
+        let mut stmt = self.connection.prepare(sql).unwrap();
+        let tasks = stmt
+            .query_map(params, |row| {
+                Ok(Task {
+                    id: row.get(0)?,
+                    content: row.get(1)?,
+                })
+            })
+            .unwrap()
+            .map(|task| task.unwrap())
+            .collect();
 
         tasks
     }
@@ -95,41 +75,25 @@ impl Storage for SqliteStorage {
     }
 
     fn list(&self, label: &Option<String>) -> Vec<Task> {
-        let tasks = match label {
-            Some(l) => {
-                let mut stmt = self
-                    .connection
-                    .prepare("SELECT id, content, label FROM tasks WHERE label = ?")
-                    .unwrap();
-
-                stmt.query_map([l], |row| {
-                    Ok(Task {
-                        id: row.get(0)?,
-                        content: row.get(1)?,
-                    })
-                })
-                .unwrap()
-                .map(|task| task.unwrap())
-                .collect()
-            }
-
-            None => {
-                let mut stmt = self
-                    .connection
-                    .prepare("SELECT id, content, label FROM tasks")
-                    .unwrap();
-
-                stmt.query_map((), |row| {
-                    Ok(Task {
-                        id: row.get(0)?,
-                        content: row.get(1)?,
-                    })
-                })
-                .unwrap()
-                .map(|task| task.unwrap())
-                .collect()
-            }
+        let (sql, params) = match label {
+            Some(l) => (
+                "SELECT id, content FROM tasks WHERE label = ?",
+                params![Box::new(l)],
+            ),
+            None => ("SELECT id, content FROM tasks", params![]),
         };
+
+        let mut stmt = self.connection.prepare(sql).unwrap();
+        let tasks = stmt
+            .query_map(params, |row| {
+                Ok(Task {
+                    id: row.get(0)?,
+                    content: row.get(1)?,
+                })
+            })
+            .unwrap()
+            .map(|task| task.unwrap())
+            .collect();
 
         tasks
     }
