@@ -17,7 +17,7 @@ pub enum Commands {
     #[command(about = "Remove a thought from the list")]
     Remove {
         #[arg()]
-        indexes: Vec<usize>,
+        ids: Vec<usize>,
     },
 
     #[command(about = "Search for thoughts in the list")]

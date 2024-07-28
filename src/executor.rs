@@ -12,7 +12,7 @@ impl Executor {
             Commands::Search { key, label } => task_service.search_task(key, label),
             Commands::List { label } => task_service.list_tasks(label),
             Commands::Clear => task_service.clear_tasks(),
-            Commands::Remove { indexes } => task_service.remove_task(indexes),
+            Commands::Remove { ids } => task_service.remove_task(ids),
         }
     }
 }
