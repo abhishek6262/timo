@@ -12,9 +12,9 @@ impl<'a> TaskService<'a> {
         Self { task_repository }
     }
 
-    pub fn add_task(&self, text: &Vec<String>) {
+    pub fn add_task(&self, text: &Vec<String>, label: &Option<String>) {
         let content = text.join(" ");
-        self.task_repository.add(&content);
+        self.task_repository.add(&content, &label);
     }
 
     pub fn clear_tasks(&self) {
@@ -27,16 +27,16 @@ impl<'a> TaskService<'a> {
         }
     }
 
-    pub fn search_task(&self, key: &Vec<String>) {
+    pub fn search_task(&self, key: &Vec<String>, label: &Option<String>) {
         let key = key.join(" ");
 
-        for task in self.task_repository.search(&key) {
+        for task in self.task_repository.search(&key, &label) {
             println!("[{}]: {}", task.id, task.content);
         }
     }
 
-    pub fn list_tasks(&self) {
-        for task in self.task_repository.get_all() {
+    pub fn list_tasks(&self, label: &Option<String>) {
+        for task in self.task_repository.get_all(&label) {
             println!("[{}]: {}", task.id, task.content);
         }
     }

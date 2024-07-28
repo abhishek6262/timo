@@ -6,6 +6,9 @@ pub enum Commands {
     Add {
         #[arg()]
         text: Vec<String>,
+
+        #[arg(short, long)]
+        label: Option<String>,
     },
 
     #[command(about = "Remove all thoughts from the list")]
@@ -14,15 +17,21 @@ pub enum Commands {
     #[command(about = "Remove a thought from the list")]
     Remove {
         #[arg()]
-        indexes: Vec<usize>,
+        ids: Vec<usize>,
     },
 
     #[command(about = "Search for thoughts in the list")]
     Search {
         #[arg()]
         key: Vec<String>,
+
+        #[arg(short, long)]
+        label: Option<String>,
     },
 
     #[command(about = "Print all thoughts in the list")]
-    List,
+    List {
+        #[arg(short, long)]
+        label: Option<String>,
+    },
 }

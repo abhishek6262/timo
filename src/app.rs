@@ -1,5 +1,4 @@
-use crate::sqlite_storage::SqliteStorage;
-use crate::storage::Storage;
+use crate::{sqlite::sqlite_storage::SqliteStorage, storage::Storage};
 
 pub struct App {
     pub storage: Box<dyn Storage>,
