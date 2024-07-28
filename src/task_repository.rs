@@ -9,8 +9,8 @@ impl<'a> TaskRepository<'a> {
         Self { storage }
     }
 
-    pub fn add(&self, content: &str) {
-        self.storage.add(content);
+    pub fn add(&self, content: &str, label: &Option<String>) {
+        self.storage.add(content, label);
     }
 
     pub fn delete(&self, id: usize) {
@@ -21,13 +21,13 @@ impl<'a> TaskRepository<'a> {
         self.storage.clear();
     }
 
-    pub fn get_all(&self) -> Vec<Task> {
-        self.storage.list()
+    pub fn get_all(&self, label: &Option<String>) -> Vec<Task> {
+        self.storage.list(&label)
     }
 
-    pub fn search(&self, key: &str) -> Vec<Task> {
+    pub fn search(&self, key: &str, label: &Option<String>) -> Vec<Task> {
         let key = key.to_lowercase();
 
-        self.storage.search(&key)
+        self.storage.search(&key, &label)
     }
 }
