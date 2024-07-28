@@ -28,19 +28,6 @@ pub struct SqliteStorage {
     connection: Connection,
 }
 
-fn fetch_tasks(stmt: &mut Statement, params: &[&dyn ToSql]) -> Vec<Task> {
-    stmt
-        .query_map(params, |row| {
-            Ok(Task {
-                id: row.get(0)?,
-                content: row.get(1)?,
-            })
-        })
-        .unwrap()
-        .map(|task| task.unwrap())
-        .collect()
-}
-
 impl Storage for SqliteStorage {
     fn new() -> impl Storage {
         let mut connection = Connection::open(&get_db_path()).unwrap();
