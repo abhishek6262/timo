@@ -54,7 +54,10 @@ impl Storage for SqliteStorage {
 
         let tasks = stmt
             .query_map([format!("%{}%", text)], |row| {
-                Ok(Task::from(row.get(0)?, row.get(1).unwrap()))
+                Ok(Task {
+                    id: row.get(0)?,
+                    content: row.get(1)?,
+                })
             })
             .unwrap()
             .map(|task| task.unwrap())
@@ -80,7 +83,12 @@ impl Storage for SqliteStorage {
             .unwrap();
 
         let tasks = stmt
-            .query_map((), |row| Ok(Task::from(row.get(0)?, row.get(1).unwrap())))
+            .query_map((), |row| {
+                Ok(Task {
+                    id: row.get(0)?,
+                    content: row.get(1)?,
+                })
+            })
             .unwrap()
             .map(|task| task.unwrap())
             .collect();
