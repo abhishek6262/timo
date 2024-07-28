@@ -12,10 +12,6 @@ fn get_db_path() -> PathBuf {
     storage_path
 }
 
-pub struct SqliteStorage {
-    connection: Connection,
-}
-
 fn fetch_tasks(stmt: &mut Statement, params: &[&dyn ToSql]) -> Vec<Task> {
     stmt
         .query_map(params, |row| {
@@ -27,6 +23,10 @@ fn fetch_tasks(stmt: &mut Statement, params: &[&dyn ToSql]) -> Vec<Task> {
         .unwrap()
         .map(|task| task.unwrap())
         .collect()
+}
+
+pub struct SqliteStorage {
+    connection: Connection,
 }
 
 impl Storage for SqliteStorage {
