@@ -2,7 +2,7 @@ use super::migration::run_migrations;
 use crate::storage::Storage;
 use crate::task::Task;
 use dirs::data_local_dir;
-use rusqlite::{params, Connection};
+use rusqlite::{params, Connection, Statement, ToSql};
 use std::path::PathBuf;
 
 fn get_db_path() -> PathBuf {
@@ -14,6 +14,19 @@ fn get_db_path() -> PathBuf {
 
 pub struct SqliteStorage {
     connection: Connection,
+}
+
+fn fetch_tasks(stmt: &mut Statement, params: &[&dyn ToSql]) -> Vec<Task> {
+    stmt
+        .query_map(params, |row| {
+            Ok(Task {
+                id: row.get(0)?,
+                content: row.get(1)?,
+            })
+        })
+        .unwrap()
+        .map(|task| task.unwrap())
+        .collect()
 }
 
 impl Storage for SqliteStorage {
@@ -49,19 +62,7 @@ impl Storage for SqliteStorage {
             ),
         };
 
-        let mut stmt = self.connection.prepare(sql).unwrap();
-        let tasks = stmt
-            .query_map(params, |row| {
-                Ok(Task {
-                    id: row.get(0)?,
-                    content: row.get(1)?,
-                })
-            })
-            .unwrap()
-            .map(|task| task.unwrap())
-            .collect();
-
-        tasks
+        fetch_tasks(&mut self.connection.prepare(sql).unwrap(), params)
     }
 
     fn delete(&self, id: usize) {
@@ -83,18 +84,6 @@ impl Storage for SqliteStorage {
             None => ("SELECT id, content FROM tasks", params![]),
         };
 
-        let mut stmt = self.connection.prepare(sql).unwrap();
-        let tasks = stmt
-            .query_map(params, |row| {
-                Ok(Task {
-                    id: row.get(0)?,
-                    content: row.get(1)?,
-                })
-            })
-            .unwrap()
-            .map(|task| task.unwrap())
-            .collect();
-
-        tasks
+        fetch_tasks(&mut self.connection.prepare(sql).unwrap(), params)
     }
 }
