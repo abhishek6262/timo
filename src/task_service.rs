@@ -21,9 +21,9 @@ impl<'a> TaskService<'a> {
         self.task_repository.delete_all();
     }
 
-    pub fn remove_task(&self, indexes: &Vec<usize>) {
-        for index in indexes {
-            self.task_repository.delete(index);
+    pub fn remove_task(&self, ids: &Vec<usize>) {
+        for id in ids {
+            self.task_repository.delete(id.to_owned());
         }
     }
 

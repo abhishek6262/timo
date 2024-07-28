@@ -7,6 +7,7 @@ mod app;
 mod cli;
 mod commands;
 mod executor;
+mod sqlite_storage;
 mod storage;
 mod task;
 mod task_repository;
