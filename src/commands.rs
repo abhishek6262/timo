@@ -4,7 +4,7 @@ use clap::Subcommand;
 pub enum Commands {
     #[command(about = "Add a new thought to the list")]
     Add {
-        #[arg()]
+        #[arg(required = true)]
         text: Vec<String>,
 
         #[arg(short, long)]
@@ -16,13 +16,13 @@ pub enum Commands {
 
     #[command(about = "Remove a thought from the list")]
     Remove {
-        #[arg()]
+        #[arg(required = true)]
         ids: Vec<usize>,
     },
 
     #[command(about = "Search for thoughts in the list")]
     Search {
-        #[arg()]
+        #[arg(required = true)]
         key: Vec<String>,
 
         #[arg(short, long)]
