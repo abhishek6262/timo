@@ -9,7 +9,16 @@ Timo is a command-line application that allows you to capture and manage your th
 - **Remove Thoughts**: Remove specific thoughts from the list by providing their indexes.
 - **Search Thoughts**: Search for thoughts in the list by providing a keyword or phrase.
 - **List Thoughts**: Print all thoughts in the list to the terminal.
-- **Persistent Storage**: Thoughts are stored in a local file for future reference.
+- **Labels**: Add labels to your thoughts to categorize them and make them easier to search and list.
+
+## Roadmap
+
+Here's a glimpse into what's coming next for Timo:
+
+1. **Labels (Implemented)**: Add labels to your thoughts to categorize them and make them easier to search and list.
+2. **Reminders (Planned)**: Set reminders for your thoughts and get notified at the specified time.
+
+**Note**: The roadmap is subject to change based on priorities and development progress.
 
 ## Installation
 
@@ -45,13 +54,14 @@ After installing Timo, you can use the following commands:
 ### Add a New Thought
 
 ```bash
-timo add <thought>
+timo add <thought> [-l <label> | --label=<label>]
 ```
 
-Replace `<thought>` with your thought. Multiple words will be combined into a single thought. For example:
+Replace <thought> with your thought. Multiple words will be combined into a single thought. Optionally, use the -l flag followed by the desired label to assign it to the thought. For example:
 
 ```bash
-timo add Hack that new idea!
+timo add Buy groceries -l errands
+timo add Work on report
 ```
 
 ### Clear All Thoughts
@@ -65,26 +75,36 @@ This command will remove all thoughts from the list.
 ### Remove Specific Thoughts
 
 ```bash
-timo remove <index1> <index2> ...
+timo remove <id1> <id2> ...
 ```
 
-Replace `<index1>`, `<index2>`, etc., with the indexes of the thoughts you want to remove. The indexes are displayed when you list the thoughts.
+Replace `<id1>`, `<id2>`, etc., with the ids of the thoughts you want to remove. The ids are displayed when you list the thoughts.
 
 ### Search for Thoughts
 
 ```bash
-timo search <keyword>
+timo search <keyword> [-l <label> | --label=<label>]
 ```
 
-Replace `<keyword>` with the word or phrase you want to search for. Timo will display all thoughts that contain the specified keyword or phrase.
+Replace `<keyword>` with the word or phrase you want to search for. Optionally use the -l flag followed by the desired label to filter your search by a specific label. Timo will display all thoughts that contain the specified keyword or phrase. For example:
+
+```bash
+timo search meeting
+timo search important -l work
+```
 
 ### List All Thoughts
 
 ```bash
-timo list
+timo list [-l <label> | --label=<label>]
 ```
 
-This command will print all thoughts in the list, along with their indexes.
+This command will print all thoughts in the list, along with their ids. Optionally use the -l flag followed by the desired label to print only the specified list. For example:
+
+```bash
+timo list
+timo list -l work
+```
 
 ### Show Help
 
