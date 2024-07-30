@@ -10,4 +10,8 @@ impl App {
             storage: Box::new(SqliteStorage::new()),
         }
     }
+
+    pub fn bootstrap(&self) {
+        //
+    }
 }

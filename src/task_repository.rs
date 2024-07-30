@@ -13,8 +13,8 @@ impl<'a> TaskRepository<'a> {
         self.storage.add(content, label);
     }
 
-    pub fn delete(&self, id: usize) {
-        self.storage.delete(id);
+    pub fn delete_many(&self, ids: &Vec<usize>) {
+        self.storage.delete_many(ids);
     }
 
     pub fn delete_all(&self) {

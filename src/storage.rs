@@ -9,7 +9,7 @@ pub trait Storage {
 
     fn search(&self, text: &str, label: &Option<String>) -> Vec<Task>;
 
-    fn delete(&self, id: usize);
+    fn delete_many(&self, ids: &Vec<usize>);
 
     fn clear(&self);
 
