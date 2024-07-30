@@ -22,9 +22,7 @@ impl<'a> TaskService<'a> {
     }
 
     pub fn remove_task(&self, ids: &Vec<usize>) {
-        for id in ids {
-            self.task_repository.delete(id.to_owned());
-        }
+        self.task_repository.delete_many(&ids)
     }
 
     pub fn search_task(&self, key: &Vec<String>, label: &Option<String>) {

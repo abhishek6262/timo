@@ -64,10 +64,15 @@ impl Storage for SqliteStorage {
         fetch_tasks(&mut self.connection.prepare(sql).unwrap(), params)
     }
 
-    fn delete(&self, id: usize) {
-        self.connection
-            .execute("DELETE FROM tasks where id = ?", [id])
-            .unwrap();
+    fn delete_many(&self, ids: &Vec<usize>) {
+        let placeholders: Vec<&str> = ids.iter().map(|_| "?").collect();
+        let sql = format!(
+            "DELETE FROM tasks WHERE id IN ({})",
+            placeholders.join(", ")
+        );
+        let params: Vec<&dyn ToSql> = ids.iter().map(|id| id as &dyn ToSql).collect();
+
+        self.connection.execute(&sql, params.as_slice()).unwrap();
     }
 
     fn clear(&self) {
