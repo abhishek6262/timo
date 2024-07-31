@@ -5,6 +5,8 @@ pub struct Executor;
 
 impl Executor {
     pub fn run(app: &App, cli: &Cli) {
+        app.bootstrap();
+
         let task_service = TaskService::new(app);
 
         match &cli.command {
