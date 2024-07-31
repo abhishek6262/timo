@@ -17,7 +17,7 @@ impl<'a> TaskService<'a> {
         self.task_repository.add(&content, &label);
     }
 
-    pub fn clear_tasks(&self) {
+    pub fn clear_tasks(&self, _: &bool) {
         self.task_repository.delete_all();
     }
 
