@@ -6,6 +6,8 @@ use rusqlite::{params, Connection, Statement, ToSql};
 use std::path::PathBuf;
 
 fn get_db_name() -> String {
+    // We'll set the DB_NAME environment only while the development
+    // mode. In production, we'll use the default value.
     dotenv::var("DB_NAME").unwrap_or(".timo.db".to_string())
 }
 
