@@ -11,7 +11,7 @@ impl Executor {
             Commands::Add { text, label } => task_service.add_task(text, label),
             Commands::Search { key, label } => task_service.search_task(key, label),
             Commands::List { label } => task_service.list_tasks(label),
-            Commands::Clear => task_service.clear_tasks(),
+            Commands::Clear { confirmed } => task_service.clear_tasks(confirmed),
             Commands::Remove { ids } => task_service.remove_task(ids),
         }
     }
