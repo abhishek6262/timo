@@ -12,7 +12,10 @@ pub enum Commands {
     },
 
     #[command(about = "Remove all thoughts from the list")]
-    Clear,
+    Clear {
+        #[arg(required = true, long)]
+        confirmed: bool,
+    },
 
     #[command(about = "Remove a thought from the list")]
     Remove {

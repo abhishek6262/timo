@@ -15,9 +15,9 @@ Timo is a command-line application that allows you to capture and manage your th
 
 Here's a glimpse into what's coming next for Timo:
 
-1. **Labels (Implemented)**: Add labels to your thoughts to categorize them and make them easier to search and list.
-2. **Reminders (Planned)**: Set reminders for your thoughts and get notified at the specified time.
-3. **Clear Confirmation (Planned)**: Implement a confirmation step before clearing all thoughts to prevent accidental data loss.
+1. **Labels (Done)**: Add labels to your thoughts to categorize them and make them easier to search and list.
+2. **Clear Confirmation (Done)**: Implement a confirmation step before clearing all thoughts to prevent accidental data loss.
+3. **Reminders (Planned)**: Set reminders for your thoughts and get notified at the specified time.
 
 **Note**: The roadmap is subject to change based on priorities and development progress.
 
@@ -68,7 +68,7 @@ timo add Work on report
 ### Clear All Thoughts
 
 ```bash
-timo clear
+timo clear --confirmed
 ```
 
 This command will remove all thoughts from the list.
