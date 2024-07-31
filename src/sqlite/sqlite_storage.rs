@@ -5,10 +5,15 @@ use dirs::data_local_dir;
 use rusqlite::{params, Connection, Statement, ToSql};
 use std::path::PathBuf;
 
+fn get_db_name() -> String {
+    dotenv::var("DB_NAME").unwrap_or(".timo.db".to_string())
+}
+
 fn get_db_path() -> PathBuf {
     let mut storage_path = data_local_dir().unwrap();
+    let db_name = get_db_name();
 
-    storage_path.push(".timo.db");
+    storage_path.push(db_name);
     storage_path
 }
 
