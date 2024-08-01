@@ -84,10 +84,10 @@ Replace `<id1>`, `<id2>`, etc., with the ids of the thoughts you want to remove.
 ### Search for Thoughts
 
 ```bash
-timo search <keyword> [-l <label> | --label=<label>]
+timo search <keyword> [-l <label> | --label=<label>] [-s | --show-labels]
 ```
 
-Replace `<keyword>` with the word or phrase you want to search for. Optionally use the -l flag followed by the desired label to filter your search by a specific label. Timo will display all thoughts that contain the specified keyword or phrase. For example:
+Replace `<keyword>` with the word or phrase you want to search for. Optionally use the -l flag followed by the desired label to filter your search by a specific label. Also, use the -s flag to display the labels in the output. Timo will display all thoughts that contain the specified keyword or phrase. For example:
 
 ```bash
 timo search meeting
@@ -97,10 +97,10 @@ timo search important -l work
 ### List All Thoughts
 
 ```bash
-timo list [-l <label> | --label=<label>]
+timo list [-l <label> | --label=<label>] [-s | --show-labels]
 ```
 
-This command will print all thoughts in the list, along with their ids. Optionally use the -l flag followed by the desired label to print only the specified list. For example:
+This command will print all thoughts in the list, along with their ids. Optionally use the -l flag followed by the desired label to print only the specified list. Also, use the -s flag to display the labels in the output. For example:
 
 ```bash
 timo list
