@@ -1,4 +1,5 @@
 use crate::app::App;
+use crate::task_printer::TaskPrinter;
 use crate::task_repository::TaskRepository;
 
 pub struct TaskService<'a> {
@@ -27,17 +28,17 @@ impl<'a> TaskService<'a> {
         }
     }
 
-    pub fn search_task(&self, key: &Vec<String>, label: &Option<String>) {
+    pub fn search_task(&self, key: &Vec<String>, label: &Option<String>, show_labels: &bool) {
         let key = key.join(" ");
 
         for task in self.task_repository.search(&key, &label) {
-            println!("[{}]: {}", task.id, task.content);
+            TaskPrinter::new(&task, &show_labels).print();
         }
     }
 
-    pub fn list_tasks(&self, label: &Option<String>) {
+    pub fn list_tasks(&self, label: &Option<String>, show_labels: &bool) {
         for task in self.task_repository.get_all(&label) {
-            println!("[{}]: {}", task.id, task.content);
+            TaskPrinter::new(&task, &show_labels).print();
         }
     }
 }

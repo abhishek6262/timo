@@ -11,8 +11,12 @@ impl Executor {
 
         match &cli.command {
             Commands::Add { text, label } => task_service.add_task(text, label),
-            Commands::Search { key, label } => task_service.search_task(key, label),
-            Commands::List { label } => task_service.list_tasks(label),
+            Commands::Search {
+                key,
+                label,
+                show_labels,
+            } => task_service.search_task(key, label, show_labels),
+            Commands::List { label, show_labels } => task_service.list_tasks(label, show_labels),
             Commands::Clear { confirmed } => task_service.clear_tasks(confirmed),
             Commands::Remove { ids } => task_service.remove_task(ids),
         }
