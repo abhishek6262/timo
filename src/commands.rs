@@ -30,11 +30,17 @@ pub enum Commands {
 
         #[arg(short, long)]
         label: Option<String>,
+
+        #[arg(short, long)]
+        show_labels: bool,
     },
 
     #[command(about = "Print all thoughts in the list")]
     List {
         #[arg(short, long)]
         label: Option<String>,
+
+        #[arg(short, long)]
+        show_labels: bool,
     },
 }
