@@ -10,6 +10,7 @@ mod executor;
 mod sqlite;
 mod storage;
 mod task;
+mod task_printer;
 mod task_repository;
 mod task_service;
 
